@@ -1,0 +1,5 @@
+﻿  test.c
+test.obj : error LNK2019: 无法解析的外部符号 InitPhoneBook，函数 main 中引用了该符号
+test.obj : error LNK2019: 无法解析的外部符号 AddPeople，函数 main 中引用了该符号
+test.obj : error LNK2019: 无法解析的外部符号 ShowPhoneBook，函数 main 中引用了该符号
+E:\phonebook\phonebook\x64\Debug\phonebook.exe : fatal error LNK1120: 3 个无法解析的外部命令
