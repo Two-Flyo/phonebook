@@ -2,12 +2,11 @@
 void menu()
 {
 	printf("*********************************\n");
-	printf("**********1.新建联系人************\n");
-	printf("**********2.删除联系人************\n");
-	printf("**********3.查找联系人************\n");
-	printf("**********4.修改联系人************\n");
+	printf("**********1.新建联系人***********\n");
+	printf("**********2.删除联系人***********\n");
+	printf("**********3.查找联系人***********\n");
+	printf("**********4.修改联系人***********\n");
 	printf("**********5.显示信息*************\n");
-	printf("**********6.排序*****************\n");
 	printf("**********0.退出*****************\n");
 	printf("*********************************\n");
 }
@@ -39,6 +38,13 @@ int main()
 			AddPeople(&phonebook);
 			break;
 		case DEL:
+			DelPeople(&phonebook);
+			break;
+		case SEARCH:
+			SearchPeople(&phonebook);
+			break;
+		case MODIFY:
+			ModifyPeople(&phonebook);
 			break;
 		case SHOW:
 			ShowPhoneBook(&phonebook);

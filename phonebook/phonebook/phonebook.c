@@ -39,3 +39,83 @@ void ShowPhoneBook(const struct PhoneBook* pb)
 			pb->data[i].sex, pb->data[i].tel, pb->data[i].address);
 	}
 }
+int FindPeopleByName(const struct PhoneBook* pb, const char* name)
+{
+	for (int i = 0; i < pb->num_people; i++)
+	{
+		if (strcmp(pb->data[i].name, name)==0)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void DelPeople(struct PhoneBook* pb)
+{
+	if (pb->num_people == 0)
+	{
+		printf("通讯录为空!\n");
+		return;
+	}
+	char name[NAME_LENGTH] = { 0 };
+	printf("请输入要删除人的名字:>");
+	scanf("%s", name);
+	//查找删除人
+	int pos = FindPeopleByName(pb, name);
+	if (pos == -1)
+	{
+		printf("该联系人不存在!\n");
+	}
+	//删除
+	else
+	{
+		for (int i = pos; i <= pb->num_people - 1; i++)
+		{
+			pb->data[i] = pb->data[i + 1];
+		}
+		pb->num_people--;
+		printf("删除成功!\n");
+	}
+}
+
+void SearchPeople(const struct PhoneBook* pb)
+{
+	char name[NAME_LENGTH] = { 0 };
+	printf("输入要查找人的名字:>");
+	scanf("%s", name);
+	int pos = FindPeopleByName(pb, name);
+	if (pos == -1)
+		printf("该联系人不存在!\n");
+	else
+	{
+		printf("%15s\t%5s\t%8s\t%15s\t%30s\n\n", "name", "age", "sex", "tel", "address");
+		printf("%15s\t%5d\t%8s\t%15s\t%30s\n", pb->data[pos].name, pb->data[pos].age,
+			pb->data[pos].sex, pb->data[pos].tel, pb->data[pos].address);
+	}
+}
+
+void ModifyPeople(struct PhoneBook* pb)
+{
+	char name[NAME_LENGTH] = { 0 };
+	printf("输入要修改的联系人的名字:>");
+	scanf("%s", name);
+	int pos = FindPeopleByName(pb, name);
+	if (pos == -1)
+		printf("该联系人不存在!\n");
+	else 
+	{
+		printf("请输入新名字:>");
+		scanf("%s", pb->data[pos].name);
+		printf("请输入年领:>");
+		scanf("%d", &pb->data[pos].age);
+		printf("请输入性别:>");
+		scanf("%s", pb->data[pos].sex);
+		printf("请输入电话:>");
+		scanf("%s", pb->data[pos].tel);
+		printf("请输入地址:>");
+		scanf("%s", pb->data[pos].address);
+
+		printf("修改成功!\n");
+	}
+}

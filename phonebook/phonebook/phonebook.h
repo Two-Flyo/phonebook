@@ -34,3 +34,13 @@ void AddPeople(struct PhoneBook* pb);
 
 //展示联系人信息
 void ShowPhoneBook(const struct PhoneBook* pb);
+
+//删除联系人
+void DelPeople(struct PhoneBook *pb);
+
+//查找联系人
+void SearchPeople(const struct PhoneBook* pb);
+
+//修改指定联系人
+void ModifyPeople(struct PhoneBook* pb);
+
