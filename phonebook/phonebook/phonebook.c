@@ -1,17 +1,38 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include"phonebook.h"
 
-
+//动态版本
 void InitPhoneBook(struct PhoneBook* pb)
 {
 	pb->num_people = 0;
-	memset(pb->data, 0, sizeof(pb->data));
+	pb->data = malloc(DEFAULT_SIZE * sizeof(struct PeopleInfo));
+	pb->capacity = DEFAULT_SIZE;
 }
 
+//静态版本
+//void InitPhoneBook(struct PhoneBook* pb)
+//{
+//	pb->num_people = 0;
+//	memset(pb->data, 0, sizeof(pb->data));
+//}
+
+//动态版本
 void AddPeople(struct PhoneBook* pb)
 {
-	if (pb->num_people == CAPACITY)
-		printf("通讯录空间不足!\n");
+	if (pb->num_people == pb->capacity)
+	{
+		struct PeopleInfo* tmp = (struct PeopleInfo*)realloc(pb->data, (pb->capacity + 2) * sizeof(struct PeopleInfo));
+		if (tmp!= NULL)
+		{
+			pb->data = tmp;
+			pb->capacity += 2;
+			printf("增容成功!\n");
+		}
+		else 
+		{
+			return;
+		}
+	}
 	else
 	{
 		printf("请输入名字:>");
@@ -24,11 +45,34 @@ void AddPeople(struct PhoneBook* pb)
 		scanf("%s", pb->data[pb->num_people].tel);
 		printf("请输入地址:>");
 		scanf("%s", pb->data[pb->num_people].address);
-
+		
 		printf("添加成功!\n");
 		pb->num_people++;
-	}
 }
+}
+
+//静态版本
+//void AddPeople(struct PhoneBook* pb)
+//{
+//	if (pb->num_people == CAPACITY)
+//		printf("通讯录空间不足!\n");
+//	else
+//	{
+//		printf("请输入名字:>");
+//		scanf("%s", pb->data[pb->num_people].name);
+//		printf("请输入年领:>");
+//		scanf("%d", &pb->data[pb->num_people].age);
+//		printf("请输入性别:>");
+//		scanf("%s", pb->data[pb->num_people].sex);
+//		printf("请输入电话:>");
+//		scanf("%s", pb->data[pb->num_people].tel);
+//		printf("请输入地址:>");
+//		scanf("%s", pb->data[pb->num_people].address);
+//
+//		printf("添加成功!\n");
+//		pb->num_people++;
+//	}
+//}
 
 void ShowPhoneBook(const struct PhoneBook* pb)
 {
@@ -118,4 +162,10 @@ void ModifyPeople(struct PhoneBook* pb)
 
 		printf("修改成功!\n");
 	}
+}
+
+void DestoryPhoneBook(struct PhoneBook* pb)
+{
+	free(pb->data);
+	pb->data = NULL;
 }

@@ -6,8 +6,8 @@ void menu()
 	printf("**********2.删除联系人***********\n");
 	printf("**********3.查找联系人***********\n");
 	printf("**********4.修改联系人***********\n");
-	printf("**********5.显示信息*************\n");
-	printf("**********0.退出*****************\n");
+	printf("**********5.显示信息  ***********\n");
+	printf("**********0.退出      ***********\n");
 	printf("*********************************\n");
 }
 enum Option
@@ -50,6 +50,7 @@ int main()
 			ShowPhoneBook(&phonebook);
 			break;
 		case EXIT:
+			DestoryPhoneBook(&phonebook);
 			printf("退出通讯录\n");
 			break;
 		default:
