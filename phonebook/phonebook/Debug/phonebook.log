@@ -1,1 +1,6 @@
-﻿  phonebook.vcxproj -> E:\phonebook\phonebook\Debug\phonebook.exe
+﻿  phonebook.c
+E:\phonebook\phonebook\phonebook\phonebook.c(222,5): warning C4553: “==”: 未使用表达式结果；是否打算使用“=”?
+  test.c
+E:\phonebook\phonebook\phonebook\test.c(1,1): warning C4828: 文件包含在偏移 0x514 处开始的字符，该字符在当前源字符集中无效(代码页 936)。
+  正在生成代码...
+  phonebook.vcxproj -> E:\phonebook\phonebook\Debug\phonebook.exe

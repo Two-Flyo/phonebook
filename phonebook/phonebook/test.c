@@ -50,6 +50,7 @@ int main()
 			ShowPhoneBook(&phonebook);
 			break;
 		case EXIT:
+			SavePhoneBook(&phonebook);
 			DestoryPhoneBook(&phonebook);
 			printf("退出通讯录\n");
 			break;
@@ -61,3 +62,7 @@ int main()
 
 	return 0;
 }
+
+//文件版本
+//1.退出通讯录的时候，保存信息到文件中
+//2.运行起来通讯录的时候，加载文件中的信息到通讯录中

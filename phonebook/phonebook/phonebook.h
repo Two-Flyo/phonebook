@@ -35,6 +35,11 @@ struct PhoneBook
 //	int num_people;//记录当前通讯录中存放的人数
 //};
 
+
+//增容
+void CheckCapacity(struct PhoneBook* pb);
+
+
 //初始化通讯录
 void InitPhoneBook(struct PhoneBook* pb);
 
@@ -56,3 +61,8 @@ void ModifyPeople(struct PhoneBook* pb);
 //销毁通讯录
 void DestoryPhoneBook(struct PhoneBook* pb);
 
+//保存信息到通讯录中
+void SavePhoneBook(struct PhoneBook* pb);
+
+//加载文件信息到通讯录中
+void LoadPhoneBook(struct PhoneBook* pb);

@@ -1,12 +1,35 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include"phonebook.h"
 
+void CheckCapacity(struct PhoneBook* pb)
+{
+	if (pb->num_people == pb->capacity)
+	{
+		struct PeopleInfo* tmp = (struct PeopleInfo*)realloc(pb->data, (pb->capacity + 2) * sizeof(struct PeopleInfo));
+		if (tmp != NULL)
+		{
+			pb->data = tmp;
+			pb->capacity += 2;
+			printf("增容成功!\n");
+		}
+		else
+		{
+			perror("通讯录增容失败!");
+			exit(-1);
+		}
+	}
+}
+
+
 //动态版本
 void InitPhoneBook(struct PhoneBook* pb)
 {
 	pb->num_people = 0;
 	pb->data = malloc(DEFAULT_SIZE * sizeof(struct PeopleInfo));
 	pb->capacity = DEFAULT_SIZE;
+
+	//加载文件信息到通讯录中
+	LoadPhoneBook(pb);
 }
 
 //静态版本
@@ -19,36 +42,20 @@ void InitPhoneBook(struct PhoneBook* pb)
 //动态版本
 void AddPeople(struct PhoneBook* pb)
 {
-	if (pb->num_people == pb->capacity)
-	{
-		struct PeopleInfo* tmp = (struct PeopleInfo*)realloc(pb->data, (pb->capacity + 2) * sizeof(struct PeopleInfo));
-		if (tmp!= NULL)
-		{
-			pb->data = tmp;
-			pb->capacity += 2;
-			printf("增容成功!\n");
-		}
-		else 
-		{
-			return;
-		}
-	}
-	else
-	{
-		printf("请输入名字:>");
-		scanf("%s", pb->data[pb->num_people].name);
-		printf("请输入年领:>");
-		scanf("%d", &pb->data[pb->num_people].age);
-		printf("请输入性别:>");
-		scanf("%s", pb->data[pb->num_people].sex);
-		printf("请输入电话:>");
-		scanf("%s", pb->data[pb->num_people].tel);
-		printf("请输入地址:>");
-		scanf("%s", pb->data[pb->num_people].address);
+	CheckCapacity(pb);
+	printf("请输入名字:>");
+	scanf("%s", pb->data[pb->num_people].name);
+	printf("请输入年领:>");
+	scanf("%d", &pb->data[pb->num_people].age);
+	printf("请输入性别:>");
+	scanf("%s", pb->data[pb->num_people].sex);
+	printf("请输入电话:>");
+	scanf("%s", pb->data[pb->num_people].tel);
+	printf("请输入地址:>");
+	scanf("%s", pb->data[pb->num_people].address);
 		
-		printf("添加成功!\n");
-		pb->num_people++;
-}
+	printf("添加成功!\n");
+	pb->num_people++;
 }
 
 //静态版本
@@ -168,4 +175,49 @@ void DestoryPhoneBook(struct PhoneBook* pb)
 {
 	free(pb->data);
 	pb->data = NULL;
+}
+
+
+void SavePhoneBook(struct PhoneBook* pb)
+{
+	//打开文件
+	FILE* pf = fopen("phonebook.txt", "wb");
+	if (pf == NULL)
+	{
+		perror("Savephonebook::fopen");
+		return ;
+	}
+	//写数据
+	for (int i = 0; i < pb->num_people; i++)
+	{
+		//fwrite(&(pb->data), sizeof(struct PeopleInfo), 1, pf);
+		fwrite(pb->data+i, sizeof(struct PeopleInfo), 1, pf);//两种写法均可
+
+	}
+	//关闭文件
+	fclose(pf);
+	pf = NULL;
+}
+
+void LoadPhoneBook(struct PhoneBook* pb)
+{
+	//打开文件
+	FILE* pf = fopen("phonebook.txt", "rb");
+	if (pf == NULL)
+	{
+		perror("LoadPhoneBook::fopen");
+		return ;
+	}
+	//读文件
+	struct PeopleInfo tmp = { 0 };
+	while (fread(&tmp, sizeof(struct PeopleInfo), 1, pf))
+	{
+		CheckCapacity(pb);//如果容量不够，增容
+		pb->data[pb->num_people] = tmp;
+		pb->num_people++;
+	}
+
+	//关闭文件
+	fclose(pf);
+	pf == NULL;
 }
